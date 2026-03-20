@@ -206,7 +206,7 @@ bash security_test.sh
 ИТОГ: ✅ PASS: 20 | ❌ FAIL: 0
 ```
 
-Полный отчёт о тестировании безопасности: [Security_Report_weather1.docx](./Security_Report_weather1.docx)
+Полный отчёт о тестировании безопасности: [SECURITY.md](./SECURITY.md)
 
 ## Проверка вручную через curl
 
