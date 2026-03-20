@@ -8,12 +8,14 @@ import (
 )
 
 type AppConfig struct {
-	Port       string
-	DBHost     string
-	DBUser     string
-	DBPassword string
-	DBName     string
-	DBPort     string
+	Port          string
+	DBHost        string
+	DBUser        string
+	DBPassword    string
+	DBName        string
+	DBPort        string
+	AppDBUser     string
+	AppDBPassword string
 
 	OpenWeatherAPIKey      string
 	OpenWeatherBaseURL     string
@@ -38,12 +40,14 @@ func LoadConfig() AppConfig {
 	}
 
 	return AppConfig{
-		Port:       os.Getenv("PORT"),
-		DBHost:     os.Getenv("DBHost"),
-		DBUser:     os.Getenv("DB_USER"),
-		DBPassword: os.Getenv("DB_PASSWORD"),
-		DBPort:     os.Getenv("DB_PORT"),
-		DBName:     os.Getenv("POSTGRES_DB"),
+		Port:          os.Getenv("PORT"),
+		DBHost:        os.Getenv("DBHost"),
+		DBUser:        os.Getenv("DB_USER"),
+		DBPassword:    os.Getenv("DB_PASSWORD"),
+		DBPort:        os.Getenv("DB_PORT"),
+		DBName:        os.Getenv("POSTGRES_DB"),
+		AppDBUser:     os.Getenv("APP_DB_USER"),
+		AppDBPassword: os.Getenv("APP_DB_PASSWORD"),
 
 		OpenWeatherAPIKey:      os.Getenv("OPENWEATHERMAP_API_KEY"),
 		OpenWeatherBaseURL:     getOpenWeatherBaseURL(os.Getenv("OPENWEATHERMAP_BASE_URL")),

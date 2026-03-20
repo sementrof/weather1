@@ -15,7 +15,7 @@ func Connection(cfg config.AppConfig, logger *zap.Logger) (*pgxpool.Pool, error)
 
 	connStr := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName,
+		cfg.DBHost, cfg.DBPort, cfg.AppDBUser, cfg.AppDBPassword, cfg.DBName,
 	)
 	poolConfig, err := pgxpool.ParseConfig(connStr)
 

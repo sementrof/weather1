@@ -121,13 +121,13 @@ go run ./cmd/app.go
 
 ### Таблицы
 
-**`"user"`**
+**`user`**
 - `id` BIGSERIAL PRIMARY KEY
 - `name` TEXT NOT NULL
 
 **`device`**
 - `id` BIGSERIAL PRIMARY KEY
-- `user_id` BIGINT NOT NULL REFERENCES `"user"(id)` ON DELETE CASCADE
+- `user_id` BIGINT NOT NULL REFERENCES `user(id)` ON DELETE CASCADE
 - `city` TEXT NOT NULL
 
 **`weather_cache`**
@@ -137,7 +137,6 @@ go run ./cmd/app.go
 - `fetched_at` TIMESTAMPTZ NOT NULL
 - `expires_at` TIMESTAMPTZ NOT NULL
 
-> Таблица `"user"` создаётся с кавычками, потому что `user` — зарезервированное слово в PostgreSQL.
 
 ## Безопасность
 
@@ -158,13 +157,12 @@ q.runner.QueryRow(ctx, `SELECT city FROM "device" WHERE id = $1`, deviceID)
 - `device_id` принимается только как целое число — строки и SQL-конструкции отклоняются с кодом 400
 - Запрос без `device_id` возвращает 401
 
-### Известные ограничения (учебная версия)
+### Известные ограничения
 
 | # | Описание |
 |---|----------|
-| 1 | `device_id` передаётся без аутентификации — возможен перебор чужих устройств (IDOR) |
-| 2 | Порт PostgreSQL (5433) проброшен на все интерфейсы хоста — только для локальной разработки |
-| 3 | Приложение подключается к БД под пользователем `postgres` (superuser) — только для локальной разработки |
+| 1 | Порт PostgreSQL (5433) проброшен на все интерфейсы хоста — только для локальной разработки |
+| 2 | Приложение подключается к БД под пользователем `postgres` (superuser) — только для локальной разработки |
 
 ## Тестирование безопасности
 
