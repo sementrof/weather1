@@ -48,6 +48,11 @@ func (im *ApiImplemented) CreateUsersPost(w http.ResponseWriter, r *http.Request
 		return
 	}
 
+	if len(input.Name) > 100 || len(input.City) > 100 {
+		http.Error(w, "name and city must be under 100 characters", http.StatusBadRequest)
+		return
+	}
+
 	deviceID, err := im.deps.DB.Settings.CreateUserWithDevice(ctx, input.Name, input.City)
 	if err != nil {
 		im.deps.Logger.Error("Failed to create user/device", zap.Error(err))
