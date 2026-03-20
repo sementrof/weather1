@@ -74,39 +74,28 @@ func (im *ApiImplemented) GetWeather(w http.ResponseWriter, r *http.Request) {
 		deviceIDStr = r.Header.Get("X-Device-Id")
 	}
 
+	if deviceIDStr == "" {
+		http.Error(w, "device_id is required", http.StatusUnauthorized)
+		return
+	}
+
 	now := time.Now().UTC()
-	var deviceID int64
-	var city string
-	var err error
 
-	if deviceIDStr != "" {
-		deviceID, err = strconv.ParseInt(deviceIDStr, 10, 64)
-		if err != nil {
-			http.Error(w, "device_id must be an integer", http.StatusBadRequest)
-			return
-		}
+	deviceID, err := strconv.ParseInt(deviceIDStr, 10, 64)
+	if err != nil {
+		http.Error(w, "device_id must be an integer", http.StatusBadRequest)
+		return
+	}
 
-		city, err = im.deps.DB.Settings.GetDeviceCity(ctx, deviceID)
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				http.Error(w, "device not found", http.StatusNotFound)
-				return
-			}
-			im.deps.Logger.Error("Failed to get device city", zap.Error(err))
-			http.Error(w, "internal error", http.StatusInternalServerError)
+	city, err := im.deps.DB.Settings.GetDeviceCity(ctx, deviceID)
+	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			http.Error(w, "device not found", http.StatusNotFound)
 			return
 		}
-	} else {
-		deviceID, city, err = im.deps.DB.Settings.GetFirstDevice(ctx)
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				http.Error(w, "no devices configured", http.StatusNotFound)
-				return
-			}
-			im.deps.Logger.Error("Failed to get first device", zap.Error(err))
-			http.Error(w, "internal error", http.StatusInternalServerError)
-			return
-		}
+		im.deps.Logger.Error("Failed to get device city", zap.Error(err))
+		http.Error(w, "internal error", http.StatusInternalServerError)
+		return
 	}
 
 	cache, ok, err := im.deps.DB.Settings.GetValidWeatherCache(ctx, deviceID, now)

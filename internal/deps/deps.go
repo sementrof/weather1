@@ -16,11 +16,12 @@ type DB struct {
 }
 
 type Dependencies struct {
-	DB     DB
-	Pool   *pgxpool.Pool
-	Logger *zap.Logger
-	Weather weather.Client
+	DB                     DB
+	Pool                   *pgxpool.Pool
+	Logger                 *zap.Logger
+	Weather                weather.Client
 	WeatherCacheTTLSeconds int64
+	APISecretKey           string
 }
 
 func ProvideDependencies(ctx context.Context, cfg config.AppConfig) (*Dependencies, error) {
@@ -36,13 +37,11 @@ func ProvideDependencies(ctx context.Context, cfg config.AppConfig) (*Dependenci
 		DB: DB{
 			Settings: db.NewSettingsQuery(pool, logger),
 		},
-		Pool:   pool,
-		Logger: logger,
-		Weather: weather.NewOpenWeatherClient(
-			cfg.OpenWeatherAPIKey,
-			cfg.OpenWeatherBaseURL,
-		),
+		Pool:                   pool,
+		Logger:                 logger,
+		Weather:                weather.NewOpenWeatherClient(cfg.OpenWeatherAPIKey, cfg.OpenWeatherBaseURL),
 		WeatherCacheTTLSeconds: cfg.WeatherCacheTTLSeconds,
+		APISecretKey:           cfg.APISecretKey,
 	}
 
 	if err := pool.Ping(ctx); err != nil {

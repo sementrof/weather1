@@ -15,9 +15,10 @@ type AppConfig struct {
 	DBName     string
 	DBPort     string
 
-	OpenWeatherAPIKey string
-	OpenWeatherBaseURL string
+	OpenWeatherAPIKey      string
+	OpenWeatherBaseURL     string
 	WeatherCacheTTLSeconds int64
+	APISecretKey           string
 }
 
 func LoadConfig() AppConfig {
@@ -44,9 +45,10 @@ func LoadConfig() AppConfig {
 		DBPort:     os.Getenv("DB_PORT"),
 		DBName:     os.Getenv("POSTGRES_DB"),
 
-		OpenWeatherAPIKey: os.Getenv("OPENWEATHERMAP_API_KEY"),
-		OpenWeatherBaseURL: getOpenWeatherBaseURL(os.Getenv("OPENWEATHERMAP_BASE_URL")),
+		OpenWeatherAPIKey:      os.Getenv("OPENWEATHERMAP_API_KEY"),
+		OpenWeatherBaseURL:     getOpenWeatherBaseURL(os.Getenv("OPENWEATHERMAP_BASE_URL")),
 		WeatherCacheTTLSeconds: ttl,
+		APISecretKey:           os.Getenv("API_SECRET_KEY"),
 	}
 }
 
