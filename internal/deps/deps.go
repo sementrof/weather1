@@ -6,7 +6,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/sementrof/Weather/internal/config"
 	"github.com/sementrof/Weather/internal/db"
-	"github.com/sementrof/Weather/internal/loger.go"
+	"github.com/sementrof/Weather/internal/logger"
 	"github.com/sementrof/Weather/internal/weather"
 	"go.uber.org/zap"
 )
@@ -24,7 +24,7 @@ type Dependencies struct {
 }
 
 func ProvideDependencies(ctx context.Context, cfg config.AppConfig) (*Dependencies, error) {
-	logger := loger.NewLogger()
+	logger := logger.NewLogger()
 
 	pool, err := db.Connection(cfg, logger)
 	if err != nil {
