@@ -117,7 +117,7 @@ go run ./cmd/app.go
 
 ### ER-диаграмма
 
-![ER-диаграмма](docs/er-diagram.png)
+![ER-диаграмма](docs/er-diagram.jpg)
 
 ### Таблицы
 
