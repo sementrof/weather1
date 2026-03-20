@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Погода (OpenWeatherMap + кэш в БД)</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="widget-container">
+        <h2>Погода</h2>
+        <div id="weather-widget" class="widget">
+            <p>Загрузка...</p>
+        </div>
+
+        <h2>Настройки устройства</h2>
+        <div class="widget">
+            <label>
+                Имя пользователя
+                <input id="user-name" type="text" placeholder="Например: Иван" />
+            </label>
+            <label>
+                Город
+                <input id="device-city" type="text" placeholder="Например: Москва" />
+            </label>
+            <button id="create-user-btn">Создать устройство</button>
+            <p id="device-info"></p>
+        </div>
+
+        <button id="refresh-weather-btn">Обновить погоду</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
